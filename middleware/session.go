@@ -27,5 +27,5 @@ func InitSession() {
 }
 
 func Session() gin.HandlerFunc {
-	return sessions.Sessions("session", store)
+	return sessions.Sessions("apollo-session", store)
 }
