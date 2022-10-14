@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-type formatter struct {
+type Formatter struct {
 	pid string
 }
 
@@ -29,7 +29,7 @@ const (
 	FieldGinContext = "gin_context"
 )
 
-func (f *formatter) Format(entry *logrus.Entry) ([]byte, error) {
+func (f *Formatter) Format(entry *logrus.Entry) ([]byte, error) {
 	colorFunc := colors[entry.Level]
 
 	level := entry.Level.String()
@@ -46,12 +46,12 @@ func (f *formatter) Format(entry *logrus.Entry) ([]byte, error) {
 
 	message := entry.Message
 
-	if entry.Data[FieldError] != nil {
-		message = fmt.Sprintf("%s, err: %s", message, entry.Data[FieldError].(error))
-	}
-
 	if entry.Data[FieldGinContext] != nil {
 		message = fmt.Sprintf("%s, request id: %s", message, entry.Data[FieldGinContext].(*gin.Context).MustGet("request_id").(string))
+	}
+
+	if entry.Data[FieldError] != nil {
+		message = fmt.Sprintf("%s, err: %s", message, entry.Data[FieldError].(error))
 	}
 
 	return []byte(fmt.Sprintf(
@@ -63,8 +63,8 @@ func (f *formatter) Format(entry *logrus.Entry) ([]byte, error) {
 	)), nil
 }
 
-func NewFormatter() *formatter {
-	return &formatter{
+func NewFormatter() *Formatter {
+	return &Formatter{
 		pid: color.New(color.FgHiMagenta).Sprint(os.Getpid()),
 	}
 }

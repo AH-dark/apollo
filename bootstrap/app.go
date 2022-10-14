@@ -6,11 +6,15 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func InitApplication() {
+type ApplicationArgs struct {
+	ForceMigrate bool
+}
+
+func InitApplication(args ApplicationArgs) {
 	if config.System.Debug {
 		log.GlobalLogger.SetLevel(logrus.DebugLevel)
 	}
 
-	log.Log().Info("init application")
-	Init()
+	log.Log().Info("Init application")
+	Init(args)
 }

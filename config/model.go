@@ -27,3 +27,12 @@ type redis struct {
 	Password string
 	DB       int
 }
+
+type cors struct {
+	AllowOrigins     []string
+	AllowMethods     []string
+	AllowHeaders     []string
+	ExposeHeaders    []string
+	AllowCredentials bool
+	MaxAge           int
+}

@@ -11,5 +11,8 @@ func InitRouter() *gin.Engine {
 	router.Use(middleware.Logger())
 	router.Use(middleware.RequestId())
 
+	api := router.Group("/api/")
+	BuildApi(api)
+
 	return router
 }
