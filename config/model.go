@@ -35,4 +35,6 @@ type cors struct {
 	ExposeHeaders    []string
 	AllowCredentials bool
 	MaxAge           int
+	Https            bool
+	SameSite         string
 }

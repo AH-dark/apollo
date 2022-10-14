@@ -27,6 +27,7 @@ const (
 	FieldLevel      = "level"
 	FieldError      = "error"
 	FieldGinContext = "gin_context"
+	FieldUsername   = "username"
 )
 
 func (f *Formatter) Format(entry *logrus.Entry) ([]byte, error) {
@@ -48,6 +49,10 @@ func (f *Formatter) Format(entry *logrus.Entry) ([]byte, error) {
 
 	if entry.Data[FieldGinContext] != nil {
 		message = fmt.Sprintf("%s, request id: %s", message, entry.Data[FieldGinContext].(*gin.Context).MustGet("request_id").(string))
+	}
+
+	if entry.Data[FieldUsername] != nil {
+		message = fmt.Sprintf("%s, user: %s", message, entry.Data[FieldUsername])
 	}
 
 	if entry.Data[FieldError] != nil {

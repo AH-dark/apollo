@@ -1,15 +1,16 @@
 package middleware
 
 import (
+	"time"
+
 	"github.com/AH-dark/apollo/config"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/samber/lo"
-	"time"
 )
 
 func CORS() gin.HandlerFunc {
-	config := cors.Config{
+	c := cors.Config{
 		AllowOrigins:     config.CORS.AllowOrigins,
 		AllowMethods:     config.CORS.AllowMethods,
 		AllowHeaders:     config.CORS.AllowHeaders,
@@ -18,12 +19,12 @@ func CORS() gin.HandlerFunc {
 		MaxAge:           time.Duration(config.CORS.MaxAge) * time.Second,
 	}
 
-	if _, exist := lo.Find(config.AllowOrigins, func(origin string) bool {
+	if _, exist := lo.Find(c.AllowOrigins, func(origin string) bool {
 		return origin == "*"
 	}); exist {
-		config.AllowAllOrigins = true
-		config.AllowOrigins = nil
+		c.AllowAllOrigins = true
+		c.AllowOrigins = nil
 	}
 
-	return cors.New(config)
+	return cors.New(c)
 }

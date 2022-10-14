@@ -52,5 +52,10 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
+	log.Log().
+		WithField(log.FieldGinContext, c).
+		WithField(log.FieldUsername, user.Username).
+		Info("User login")
+
 	c.JSON(http.StatusOK, serializer.NewSuccessResponse(vo.BuildUserVO(user)))
 }

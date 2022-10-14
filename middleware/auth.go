@@ -1,12 +1,13 @@
 package middleware
 
 import (
+	"net/http"
+
 	"github.com/AH-dark/apollo/model"
 	"github.com/AH-dark/apollo/pkg/log"
 	"github.com/AH-dark/apollo/pkg/serializer"
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 func Auth() gin.HandlerFunc {
@@ -33,28 +34,34 @@ func Auth() gin.HandlerFunc {
 }
 
 func LoginOnly(c *gin.Context) {
-	if c.MustGet("user") == nil {
-		c.AbortWithStatusJSON(403, serializer.NewHttpError(http.StatusForbidden, "Login required", c.MustGet("requestId").(string)))
+	if _, ok := c.Get("user"); !ok {
+		c.AbortWithStatusJSON(403, serializer.NewHttpError(http.StatusForbidden, "Login required", c.MustGet("request_id").(string)))
 		return
 	}
 }
 
 func NoLoginOnly(c *gin.Context) {
-	if c.MustGet("user") != nil {
-		c.AbortWithStatusJSON(403, serializer.NewHttpError(http.StatusForbidden, "No login required", c.MustGet("requestId").(string)))
+	if _, ok := c.Get("user"); ok {
+		c.AbortWithStatusJSON(403, serializer.NewHttpError(http.StatusForbidden, "No login required", c.MustGet("request_id").(string)))
 		return
 	}
 }
 
 func AdminOnly(c *gin.Context) {
-	if c.MustGet("user") == nil {
-		c.AbortWithStatusJSON(403, serializer.NewHttpError(http.StatusForbidden, "Login required", c.MustGet("requestId").(string)))
+	sess, ok := c.Get("user")
+	if !ok {
+		c.AbortWithStatusJSON(403, serializer.NewHttpError(http.StatusForbidden, "Login required", c.MustGet("request_id").(string)))
 		return
 	}
 
-	user := c.MustGet("user").(*model.User)
+	user, ok := sess.(*model.User)
+	if !ok {
+		c.AbortWithStatusJSON(500, serializer.NewHttpError(http.StatusInternalServerError, "Internal error", c.MustGet("request_id").(string)))
+		return
+	}
+
 	if !user.IsAdmin() {
-		c.AbortWithStatusJSON(403, serializer.NewHttpError(http.StatusForbidden, "Admin only", c.MustGet("requestId").(string)))
+		c.AbortWithStatusJSON(403, serializer.NewHttpError(http.StatusForbidden, "Admin only", c.MustGet("request_id").(string)))
 		return
 	}
 }

@@ -41,4 +41,6 @@ var CORS = &cors{
 	ExposeHeaders:    util.EnvStringSlice("CORS_EXPOSE_HEADERS", ",", []string{}),
 	MaxAge:           util.EnvInt("CORS_MAX_AGE", 86400),
 	AllowCredentials: util.EnvBool("CORS_ALLOW_CREDENTIALS", true),
+	Https:            util.EnvBool("CORS_HTTPS", false),
+	SameSite:         util.EnvStr("CORS_SAME_SITE", "Lax"),
 }
