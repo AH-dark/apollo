@@ -17,6 +17,7 @@ type Comment struct {
 
 	Reply     *string   `gorm:"type:varchar(255)"` // Reply 回复内容
 	ReplyTime time.Time // ReplyTime 回复时间
+	ReplyUser uint      `gorm:"index"` // ReplyUser 回复用户
 
 	// TODO: 追问
 }

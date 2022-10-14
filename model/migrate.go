@@ -2,7 +2,9 @@ package model
 
 import (
 	"github.com/AH-dark/apollo/config"
+	"github.com/AH-dark/apollo/pkg/crypto"
 	"github.com/AH-dark/apollo/pkg/log"
+	"github.com/AH-dark/apollo/pkg/util"
 	"github.com/samber/lo"
 	"gorm.io/gorm"
 )
@@ -14,16 +16,21 @@ func needMigration(db *gorm.DB) bool {
 
 func migrate(db *gorm.DB, force bool) {
 	if !force && !needMigration(db) {
+		log.Log().Info("no need to migrate")
 		return
 	}
 
-	err := db.AutoMigrate(&Setting{}, &Comment{})
+	log.Log().Info("start migrating")
+	defer log.Log().Info("end migrating")
+
+	err := db.AutoMigrate(&Setting{}, &Comment{}, &User{})
 	if err != nil {
 		log.Log().WithError(err).Error("failed to migrate setting")
 		return
 	}
 
 	addDefaultSettings(db)
+	addDefaultUser(db)
 }
 
 func addDefaultSettings(db *gorm.DB) {
@@ -49,4 +56,27 @@ func addDefaultSettings(db *gorm.DB) {
 			log.Log().WithError(err).Error("failed to add default setting")
 		}
 	}
+}
+
+func addDefaultUser(db *gorm.DB) {
+	var user User
+	err := db.Model(&User{}).Where("username = ?", "admin").First(&user).Error
+	if err == nil {
+		return
+	}
+
+	pass := util.RandString(8)
+
+	err = db.Create(&User{
+		Username: "admin",
+		Password: crypto.Password(pass),
+		Email:    "admin@example.org",
+		Role:     UserStatusAdmin,
+	}).Error
+	if err != nil {
+		log.Log().WithError(err).Error("failed to add default user")
+		return
+	}
+
+	log.Log().Infof("added default user, username: %s, email: %s, password: %s", "admin", "admin@example.org", pass)
 }

@@ -7,3 +7,8 @@ type CommentDTO struct {
 	IP          string  `json:"ip" xml:"IP" form:"ip" binding:"required"`
 	RequestID   string  `json:"request_id" xml:"RequestID" form:"request_id" binding:"required"`
 }
+
+type AdminListCommentsDTO struct {
+	Before   *int64 `json:"before,omitempty" xml:"Before,omitempty" form:"before" binding:"omitempty,gt=0"`
+	PageSize int    `json:"page_size" xml:"PageSize" form:"page_size" binding:"required,gt=0"`
+}

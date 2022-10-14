@@ -8,6 +8,6 @@ import (
 )
 
 func BuildClient(forceMigrate bool) *Client {
-	wire.Build(NewClient, initDB, NewSettingService, NewCommentService)
+	wire.Build(NewClient, initDB, NewSettingService, NewCommentService, NewUserService)
 	return nil
 }

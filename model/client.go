@@ -7,13 +7,15 @@ type Client struct {
 
 	Setting SettingService
 	Comment CommentService
+	User    UserService
 }
 
-func NewClient(db *gorm.DB, setting SettingService, comment CommentService) *Client {
+func NewClient(db *gorm.DB, setting SettingService, comment CommentService, user UserService) *Client {
 	return &Client{
 		db:      db,
 		Setting: setting,
 		Comment: comment,
+		User:    user,
 	}
 }
 

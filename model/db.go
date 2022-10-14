@@ -6,11 +6,13 @@ import (
 	"github.com/AH-dark/apollo/pkg/log"
 	"github.com/AH-dark/apollo/pkg/util"
 	"github.com/gin-gonic/gin"
+	"github.com/samber/lo"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/driver/sqlite"
 	"gorm.io/driver/sqlserver"
 	"gorm.io/gorm"
+	gorm_logger "gorm.io/gorm/logger"
 	"gorm.io/gorm/schema"
 )
 
@@ -61,6 +63,9 @@ func initDB(forceMigrate bool) *gorm.DB {
 			SingularTable: true,
 			TablePrefix:   config.Database.TablePrefix,
 		},
+		Logger: gorm_logger.New(log.Log(), gorm_logger.Config{
+			LogLevel: lo.If(config.System.Debug, gorm_logger.Info).Else(gorm_logger.Silent),
+		}),
 	})
 	if err != nil {
 		log.Log().WithError(err).Panic("database connect error")

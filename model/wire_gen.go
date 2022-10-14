@@ -12,6 +12,7 @@ func BuildClient(forceMigrate bool) *Client {
 	db := initDB(forceMigrate)
 	modelSettingService := NewSettingService(db)
 	modelCommentService := NewCommentService(db)
-	client := NewClient(db, modelSettingService, modelCommentService)
+	modelUserService := NewUserService(db)
+	client := NewClient(db, modelSettingService, modelCommentService, modelUserService)
 	return client
 }
