@@ -1,10 +1,10 @@
 package main
 
 import (
-	"apollo/bootstrap"
-	"apollo/config"
-	"apollo/pkg/log"
-	"apollo/router"
+	"github.com/AH-dark/apollo/bootstrap"
+	"github.com/AH-dark/apollo/config"
+	"github.com/AH-dark/apollo/pkg/log"
+	"github.com/AH-dark/apollo/router"
 )
 
 func init() {

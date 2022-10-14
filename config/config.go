@@ -1,6 +1,6 @@
 package config
 
-import "apollo/pkg/util"
+import "github.com/AH-dark/apollo/pkg/util"
 
 var System = &system{
 	Listen:        util.EnvStr("LISTEN", ":8080"),

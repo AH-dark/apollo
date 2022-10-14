@@ -1,4 +1,4 @@
-module apollo
+module github.com/AH-dark/apollo
 
 go 1.19
 

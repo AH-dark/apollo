@@ -1,7 +1,7 @@
 package router
 
 import (
-	"apollo/middleware"
+	"github.com/AH-dark/apollo/middleware"
 	"github.com/gin-gonic/gin"
 )
 
