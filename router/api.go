@@ -7,4 +7,5 @@ import (
 
 func BuildApi(r *gin.RouterGroup) {
 	r.Use(middleware.CORS())
+	r.Use(middleware.Session())
 }
