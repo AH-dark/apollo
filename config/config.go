@@ -28,7 +28,7 @@ var Database = &database{
 
 var Redis = &redis{
 	Network:  util.EnvStr("REDIS_NETWORK", "tcp"),
-	Host:     util.EnvStr("REDIS_HOST", "UNSET"),
+	Host:     util.EnvStr("REDIS_HOST", ""),
 	Port:     util.EnvInt("REDIS_PORT", 6379),
 	Password: util.EnvStr("REDIS_PASSWORD", ""),
 	DB:       util.EnvInt("REDIS_DB", 0),
