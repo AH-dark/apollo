@@ -29,6 +29,9 @@ type CommentService interface {
 
 	// DeleteComment deletes a comment.
 	DeleteComment(id uint) error
+
+	// CountCommentsByStatus returns the number of comments by status.
+	CountCommentsByStatus(commentStatus CommentStatus) int64
 }
 
 type commentService struct {
@@ -89,6 +92,7 @@ func (s *commentService) UpdateComment(comment *Comment) error {
 }
 
 func (s *commentService) CreateComment(comment *Comment) error {
+	comment.Status = CommentStatusPending
 	return s.db.Model(&Comment{}).Create(comment).Error
 }
 
@@ -110,4 +114,10 @@ func (s *commentService) CreateCommentByDTO(commentDTO dto.CommentDTO) (*Comment
 
 func (s *commentService) DeleteComment(id uint) error {
 	return s.db.Model(&Comment{}).Where("id = ?", id).Delete(&Comment{}).Error
+}
+
+func (s *commentService) CountCommentsByStatus(commentStatus CommentStatus) int64 {
+	var count int64 = 0
+	s.db.Model(&Comment{}).Where("status = ?", commentStatus).Count(&count)
+	return count
 }

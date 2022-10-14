@@ -3,6 +3,7 @@ package router
 import (
 	"github.com/AH-dark/apollo/controller"
 	"github.com/AH-dark/apollo/controller/auth"
+	"github.com/AH-dark/apollo/controller/comment"
 	"github.com/AH-dark/apollo/controller/info"
 	"github.com/AH-dark/apollo/controller/session"
 	"github.com/AH-dark/apollo/middleware"
@@ -35,5 +36,14 @@ func BuildApi(r *gin.RouterGroup) {
 	{
 		// /api/session/me GET 获取当前用户信息
 		sessions.GET("me", session.CurrentUserHandler)
+	}
+
+	comments := r.Group("comment")
+	{
+		// /api/comment/submit POST 提交评论
+		comments.POST("submit", comment.SubmitCommentHandler)
+
+		// /api/comment/list GET 获取评论列表
+		comments.GET("list", comment.ListCommentsHandler)
 	}
 }
