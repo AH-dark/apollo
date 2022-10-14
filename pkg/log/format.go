@@ -51,7 +51,7 @@ func (f *Formatter) Format(entry *logrus.Entry) ([]byte, error) {
 	}
 
 	if entry.Data[FieldError] != nil {
-		message = fmt.Sprintf("%s, err: %s", message, entry.Data[FieldError].(error))
+		message = fmt.Sprintf("%s, err: \"%s\"", message, entry.Data[FieldError].(error))
 	}
 
 	return []byte(fmt.Sprintf(

@@ -4,6 +4,7 @@ import (
 	"github.com/AH-dark/apollo/middleware"
 	"github.com/AH-dark/apollo/model"
 	"github.com/AH-dark/apollo/pkg/cache"
+	"github.com/AH-dark/apollo/pkg/hashids"
 	"github.com/AH-dark/apollo/pkg/log"
 )
 
@@ -16,4 +17,9 @@ func Init(args ApplicationArgs) {
 
 	log.Log().Info("Initialing session...")
 	middleware.InitSession()
+
+	log.Log().Info("Initialing hashids...")
+	hashids.Init()
+
+	log.Log().Info("Application initialized")
 }

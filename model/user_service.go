@@ -14,7 +14,7 @@ type UserService interface {
 	// GetUserByEmail get user by email
 	GetUserByEmail(email string) (*User, error)
 	// ComparePassword compare password
-	ComparePassword(login, password string) bool
+	ComparePassword(login, password string) (bool, *User)
 	// CreateUser create user
 	CreateUser(user *User) error
 	// CreateUserByDTO create user by dto
@@ -53,14 +53,14 @@ func (s *userService) GetUserByEmail(email string) (*User, error) {
 	return &user, err
 }
 
-func (s *userService) ComparePassword(login, password string) bool {
+func (s *userService) ComparePassword(login, password string) (bool, *User) {
 	var user User
 	err := s.db.Model(&User{}).Where("username = ? OR email = ?", login, login).First(&user).Error
 	if err != nil {
-		return false
+		return false, nil
 	}
 
-	return user.ComparePassword(password)
+	return user.ComparePassword(password), &user
 }
 
 func (s *userService) CreateUser(user *User) error {

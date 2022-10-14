@@ -25,3 +25,7 @@ const (
 func (u *User) ComparePassword(password string) bool {
 	return u.Password == crypto.Password(password)
 }
+
+func (u *User) IsAdmin() bool {
+	return u.Role == UserStatusAdmin
+}
