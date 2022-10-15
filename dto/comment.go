@@ -13,6 +13,6 @@ type SubmitCommentDTO struct {
 }
 
 type ListCommentsDTO struct {
-	Before   *int64 `json:"before,omitempty" xml:"Before,omitempty" form:"before" query:"before" binding:"omitempty,gt=0"` // Before unix micro timestamp
+	Before   *int64 `json:"before,omitempty" xml:"Before,omitempty" form:"before" query:"before" binding:"omitempty,gt=0"` // Before unix timestamp
 	PageSize int    `json:"page_size" xml:"PageSize" form:"page_size" query:"page_size" binding:"required,gt=0,lte=50"`
 }

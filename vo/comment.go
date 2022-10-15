@@ -8,10 +8,13 @@ import (
 )
 
 type CommentVO struct {
-	ID          string  `json:"id" xml:"ID"`
-	AuthorName  *string `json:"author_name" xml:"AuthorName"`
-	AuthorEmail *string `json:"author_email" xml:"AuthorEmail"`
-	Content     string  `json:"content" xml:"Content"`
+	ID          string    `json:"id" xml:"ID"`
+	AuthorName  *string   `json:"author_name" xml:"AuthorName"`
+	AuthorEmail *string   `json:"author_email" xml:"AuthorEmail"`
+	Content     string    `json:"content" xml:"Content"`
+	Reply       *string   `json:"reply,omitempty" xml:"Reply,omitempty"`
+	RepliedAt   time.Time `json:"replied_at,omitempty" xml:"RepliedAt,omitempty"`
+	CreatedAt   time.Time `json:"created_at" xml:"CreatedAt"`
 }
 
 func BuildCommentVO(comment *model.Comment) CommentVO {
@@ -20,6 +23,9 @@ func BuildCommentVO(comment *model.Comment) CommentVO {
 		AuthorName:  comment.Author,
 		AuthorEmail: comment.Email,
 		Content:     comment.Content,
+		Reply:       comment.Reply,
+		RepliedAt:   comment.ReplyTime,
+		CreatedAt:   comment.CreatedAt,
 	}
 }
 

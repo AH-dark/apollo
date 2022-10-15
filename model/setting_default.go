@@ -23,4 +23,14 @@ var defaultSettings = []Setting{
 		Type:  SettingTypeBasic,
 		Value: "A simple comment board",
 	},
+	{
+		Name:  "comment_title",
+		Type:  SettingTypeBasic,
+		Value: "Leave your comments!",
+	},
+	{
+		Name:  "comment_background_image",
+		Type:  SettingTypeBasic,
+		Value: "https://source.unsplash.com/random/1920x1080",
+	},
 }

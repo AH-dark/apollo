@@ -71,7 +71,7 @@ func (s *commentService) GetCommentByRequestID(requestID string) (*Comment, erro
 
 func (s *commentService) ListCommentsByStatus(commentStatus CommentStatus, before time.Time, limit int) ([]*Comment, error) {
 	var comments []*Comment
-	if err := s.db.Model(&Comment{}).Where("status = ? AND created_at < ?", commentStatus, before).Limit(limit).Find(&comments).Error; err != nil {
+	if err := s.db.Model(&Comment{}).Where("status = ? AND created_at < ?", commentStatus, before).Order("created_at DESC").Limit(limit).Find(&comments).Error; err != nil {
 		return nil, err
 	}
 

@@ -24,7 +24,7 @@ func ListCommentsHandler(c *gin.Context) {
 
 	before := time.Now()
 	if payload.Before != nil {
-		before = time.UnixMicro(*payload.Before)
+		before = time.Unix(*payload.Before, 0)
 	}
 
 	comments, err := model.Global.Comment.ListCommentsByStatus(model.CommentStatusReplied, before, payload.PageSize)
