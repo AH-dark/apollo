@@ -7,6 +7,7 @@ import (
 	"github.com/AH-dark/apollo/controller/info"
 	"github.com/AH-dark/apollo/controller/session"
 	"github.com/AH-dark/apollo/middleware"
+	"github.com/AH-dark/apollo/pkg/hashids"
 	"github.com/gin-gonic/gin"
 )
 
@@ -45,5 +46,8 @@ func BuildApi(r *gin.RouterGroup) {
 
 		// /api/comment/list GET 获取评论列表
 		comments.GET("list", comment.ListCommentsHandler)
+
+		// /api/comment/:cid GET 获取评论详情
+		comments.GET(":cid", middleware.HashIdParser(hashids.CommentHash, "cid"), comment.GetCommentHandler)
 	}
 }
