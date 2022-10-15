@@ -22,8 +22,10 @@ func CORS() gin.HandlerFunc {
 	if _, exist := lo.Find(c.AllowOrigins, func(origin string) bool {
 		return origin == "*"
 	}); exist {
-		c.AllowAllOrigins = true
 		c.AllowOrigins = nil
+		c.AllowOriginFunc = func(origin string) bool {
+			return true
+		}
 	}
 
 	return cors.New(c)
