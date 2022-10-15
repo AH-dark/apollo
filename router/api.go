@@ -15,6 +15,9 @@ func BuildApi(r *gin.RouterGroup) {
 	r.Use(middleware.CORS())
 	r.Use(middleware.Session())
 	r.Use(middleware.Auth())
+	r.OPTIONS("/*path", func(c *gin.Context) {
+		c.Status(200)
+	})
 
 	r.GET("ping", controller.PingHandler)
 
